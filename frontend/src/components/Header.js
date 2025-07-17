@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link
 import ThemeToggleButton from './ThemeToggleButton';
 
 // --- Icon Components ---
-// It's clean to define simple, single-use icons directly in the component file.
 const HamburgerIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -17,14 +17,16 @@ const CloseIcon = () => (
 
 
 const Header = () => {
-  // State to manage the visibility of the mobile menu.
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Updated navLinks with correct paths for the router
   const navLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'Topics', href: '#' },
-    { name: 'Community', href: '#' },
-    { name: 'About', href: '#' },
+    { name: 'Home', href: '/' },
+    { name: 'Bible', href: '/bible' },
+    { name: 'Topics', href: '/topics' }, // Placeholder paths for now
+    { name: 'Community', href: '/community' },
+    { name: 'Trivia', href: '/trivia' },
+    { name: 'About', href: '/about' },
   ];
 
   return (
@@ -34,31 +36,31 @@ const Header = () => {
           {/* App Title */}
           <div className="flex-shrink-0">
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-              SMART WORD <span className="text-linkedin-blue">AI</span>
+              <Link to="/">SMART WORD <span className="text-linkedin-blue">AI</span></Link>
             </h1>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <a
+              <Link // Use Link component here
                 key={link.name}
-                href={link.href}
+                to={link.href}
                 className="font-medium text-gray-500 dark:text-gray-300 hover:text-linkedin-blue dark:hover:text-linkedin-blue transition-colors duration-200"
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </nav>
 
           <div className="flex items-center">
-            {/* Theme Toggle Button - visible on all screen sizes */}
+            {/* Theme Toggle Button */}
             <div className="mr-4">
               <ThemeToggleButton />
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="p-2 rounded-md text-gray-500 dark:text-gray-300 hover:text-linkedin-blue focus:outline-none focus:ring-2 focus:ring-inset focus:ring-linkedin-blue"
@@ -72,18 +74,17 @@ const Header = () => {
       </div>
 
       {/* Mobile Menu Panel */}
-      {/* This section is conditionally rendered based on the isMenuOpen state */}
       {isMenuOpen && (
-        <div className="md:hidden absolute top-16 left-0 w-full bg-white dark:bg-gray-800 shadow-lg z-10">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="lg:hidden absolute top-16 left-0 w-full bg-white dark:bg-gray-800 shadow-lg z-10">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3" onClick={() => setIsMenuOpen(false)}>
             {navLinks.map((link) => (
-              <a
+              <Link // Use Link component here as well
                 key={link.name}
-                href={link.href}
+                to={link.href}
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-linkedin-blue"
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
